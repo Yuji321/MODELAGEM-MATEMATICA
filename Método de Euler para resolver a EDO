@@ -1,0 +1,66 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+
+def euler_method(f, y0, x0, xn, h):
+    """
+    Implementa o Método de Euler para resolver a EDO y' = f(x, y)
+
+    Parâmetros:
+    f  - Função que define a EDO y' = f(x, y)
+    y0 - Valor inicial de y no ponto x0
+    x0 - Ponto inicial
+    xn - Ponto final
+    h  - Tamanho do passo
+
+    Retorna:
+    xs - Valores de x
+    ys - Valores de y
+    """
+    n = int((xn - x0) / h)  # Número de passos
+    xs = np.linspace(x0, xn, n + 1)
+    ys = np.zeros(n + 1)
+
+    ys[0] = y0  # Valor inicial
+
+    for i in range(n):
+        ys[i + 1] = ys[i] + h * f(xs[i], ys[i])
+
+    return xs, ys
+
+
+def main():
+    # Solicitar entrada do usuário para os parâmetros
+    print("Resolução de EDO usando o Método de Euler")
+
+    # Definindo a função f(x, y)
+    func_input = input("Digite a função f(x, y) na forma de 'x + y': ")
+
+    def f(x, y):
+        return eval(func_input)
+
+    x0 = float(input("Digite o valor inicial de x (x0): "))
+    y0 = float(input("Digite o valor inicial de y (y0): "))
+    xn = float(input("Digite o valor final de x (xn): "))
+    h = float(input("Digite o tamanho do passo (h): "))
+
+    # Resolvendo a EDO usando o Método de Euler
+    xs, ys = euler_method(f, y0, x0, xn, h)
+
+    # Exibindo os resultados com 5 casas decimais
+    print("\nValores de x e y calculados:")
+    for x, y in zip(xs, ys):
+        print(f"x = {x:.5f}, y = {y:.5f}")
+
+    # Plotando o resultado
+    plt.plot(xs, ys, label='Aproximação pelo Método de Euler')
+    plt.xlabel('x')
+    plt.ylabel('y')
+    plt.title("Solução da EDO usando o Método de Euler")
+    plt.legend()
+    plt.grid(True)
+    plt.show()
+
+
+if __name__ == "__main__":
+    main()
