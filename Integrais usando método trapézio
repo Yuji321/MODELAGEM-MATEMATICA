@@ -1,0 +1,46 @@
+import numpy as np
+import scipy.integrate as integrate
+
+
+# Função genérica para ser integrada
+def func(x):
+    return eval(func_str)
+
+
+# Método do Trapézio com detalhes das interações
+def trapezoidal_rule(func, a, b, n):
+    x = np.linspace(a, b, n + 1)
+    y = func(x)
+    h = (b - a) / n
+    integral = 0.0
+    print(f"x: {np.array2string(x, precision=5, separator=', ')}")
+    print(f"y: {np.array2string(y, precision=5, separator=', ')}")
+    print(f"h: {h:.5f}")
+
+    for i in range(n):
+        area = (y[i] + y[i + 1]) * h / 2
+        integral += area
+        print(f"Subintervalo {i + 1}: x[{i}] = {x[i]:.5f}, x[{i + 1}] = {x[i + 1]:.5f}, area = {area:.5f}")
+
+    return integral
+
+
+# Entrada de dados pelo teclado
+func_str = input("Digite a função a ser integrada (ex: 'np.sin(x)'): ")
+a = float(input("Digite o limite inferior do intervalo de integração (a): "))
+b = float(input("Digite o limite superior do intervalo de integração (b): "))
+n4 = int(input("Digite o número de subintervalos para o primeiro cálculo (ex: 4): "))
+n10 = int(input("Digite o número de subintervalos para o segundo cálculo (ex: 10): "))
+
+# Cálculo das integrais
+print("\nCalculando com 4 subintervalos:")
+integral_n4 = trapezoidal_rule(func, a, b, n4)
+print(f"Integral com {n4} subintervalos: {integral_n4:.5f}\n")
+
+print("Calculando com 10 subintervalos:")
+integral_n10 = trapezoidal_rule(func, a, b, n10)
+print(f"Integral com {n10} subintervalos: {integral_n10:.5f}\n")
+
+# Verificação com a função de integração da biblioteca scipy
+exact_integral, _ = integrate.quad(lambda x: eval(func_str), a, b)
+print(f"Integral exata: {exact_integral:.5f}")
